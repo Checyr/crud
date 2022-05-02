@@ -45,5 +45,56 @@ columns called id, first_name, email, datinha and if something went wrong the pr
 the error.
 
 
+#### Inserting Data on MySQL
+
+To insert Data on a table is the same process which change it's the command but this not a safe way to do 
+this, so we need to see about query Injection
+
+## Query Injection
+
+For query injection it's most recommended use to prepare and passed after a array with the values like in the 
+example below, we use the "?" to avoid to the user can type a command and add something or delete on the database:
+
+~~~~php
+    $sql = $pdo->prepare("INSERT INTO clients VALUES (default,?,?,?)");
+    $sql->execute(array($name,$email,$data));
+    echo "Submited" . PHP_EOL;
+~~~~
+
+
+## READ 
+
+For read or select the data's and show them on the screen we need to check if we have any kinda of data on the database
+for this we create a variable that will receive the sql variable with the instance fetchAll();
+
+~~~~php
+   $datainfo = $sql->fetchAll();
+~~~~
+
+and we're going to use an if to with the function "count" to count the items on an array if is greater than 0
+we execute a foreach with "=>" for get the key and the value of an array and show this on a table and put an else 
+if is empty.
+
+~~~~php
+    $datainfo = $sql->fetchAll();
+    if(count($datainfo) > 0){
+        foreach ($datainfo as $key => $value) {
+            echo"<tr>
+                <td>".$value['id']."</td> 
+                <td>".$value['first_name']."</td>
+                <td>".$value['email']."</td>
+                <td>".$value['datinha']."</td>
+                <td><button>edit</button> <button>delete</button></td>
+             </tr>";
+        }
+        echo "</table>";
+    }else{
+        echo "<p style='color: red'>The Database is empty</p>". \n;
+    }
+~~~~
+
+## DELETE
+
+
 
 
