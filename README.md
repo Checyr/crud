@@ -58,7 +58,7 @@ example below, we use the "?" to avoid to the user can type a command and add so
 ~~~~php
     $sql = $pdo->prepare("INSERT INTO clients VALUES (default,?,?,?)");
     $sql->execute(array($name,$email,$data));
-    echo "Submited" . PHP_EOL;
+    echo "Submitted" . PHP_EOL;
 ~~~~
 
 
@@ -93,8 +93,13 @@ if is empty.
     }
 ~~~~
 
+
+
+##
+s
+
 ## DELETE
 
-
+[Read Process Memory](https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory)
 
 

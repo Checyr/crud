@@ -4,7 +4,7 @@
 }
 
 table{
-    width:40%;
+    !important:width:40%;
     top: 0;
     right: 50%;
 }

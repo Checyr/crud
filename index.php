@@ -15,7 +15,7 @@ require("db/connection.php");
 </head>
 <body>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="modaledit">
+<div class="modal fade"  tabindex="-1" role="dialog" id="modaledit">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -25,14 +25,23 @@ require("db/connection.php");
                 </button>
             </div>
             <div class="modal-body">
-                <input type="text" name="name">
-                <input type="email" name="email">
-                <input type="date" name="date">
+                <form method="post">
+                    <select id="ids" name="idinput">
+                    <?php
+                    $sql = $pdo->prepare("SELECT id FROM clients");
+                    $sql->execute();
+                    $datainfoid = $sql->fetchAll();
+                    foreach ($datainfoid as $item => $valueid) {
+                        echo "<option>".$valueid['id']." </option>";
+                    }
+                    ?></select>
+                <input type="text" name="nameinput">
+                <input type="email" name="emailinput">
+                <input type="date" name="datinhainput">
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="<?
-
-                ?>">Save changes</button>
+                <button type="button" class="btn btn-primary" href="update.php">Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -60,7 +69,7 @@ require("db/connection.php");
     }
     ?>
     <div class="container">
-        <form action="" method="post">
+        <form action="adddata.php" method="post">
             <input type="text" name="name">
             <input type="email" name="email">
             <input type="date" name="data">
@@ -92,30 +101,18 @@ require("db/connection.php");
                 <td>".$value['first_name']."</td>
                 <td>".$value['email']."</td>
                 <td>".$value['datinha']."</td>
-                <td><button href='editdata.php' id='edit' class='btn btn-success editbtn' data-toggle='modal' >edit</button> <button href='deletedata.php' class='btn btn-danger'>delete</button></td>
+                <td><button data-id='".$value['id']."' data-name='".$value['first_name']."' data-email='".$value['email']."' data-date='".$value['datinha']."' href='update.php'  id='edit' class='btn btn-success editbtn' data-toggle='modal' data-target='#modaledit'>edit</button> <button href='deletedata.php' class='btn btn-danger'>delete</button></td>
              </tr>";
         }
         echo "</table>";
     }else{
-        echo "<p style='color: red'>The Database is empty</p>". \n;
+        echo "<p style='color: red'>The Database is empty</p>";
     }
     ?>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <script>
-            $(document).ready({
-                $(.editbtn).on('click', function () {
-                    $('#modaledit').modal('show');
-                    var id = $(this).attr('data-id');
-                    var name = $(this).attr('data-name');
-                    var email = $(this).attr('data-email');
-                    var date = $(this).attr('data-date');
-                    alert("a");
-                })
-            })
-
-        </script>
 </body>
 </html>
 

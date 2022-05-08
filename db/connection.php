@@ -1,11 +1,10 @@
 <?php
+session_start();
 //general configs
 $server = "localhost";
 $usuario = "root";
 $senha = "25153jHj82794";
-$banco = "crud";
-
-
+$banco = "C_R_U_D";
 //Connection
 try {
     $pdo = new PDO("mysql:host=$server;dbname=$banco", $usuario, $senha);
