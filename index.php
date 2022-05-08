@@ -25,8 +25,8 @@ require("db/connection.php");
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post">
-                    <select id="ids" name="idinput">
+                <form action="update.php" method="post">
+                    <select id="ids" name="ids">
                     <?php
                     $sql = $pdo->prepare("SELECT id FROM clients");
                     $sql->execute();
@@ -38,11 +38,11 @@ require("db/connection.php");
                 <input type="text" name="nameinput">
                 <input type="email" name="emailinput">
                 <input type="date" name="datinhainput">
-                </form>
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" href="update.php">Save changes</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" href='update.php'>Save changes</button>
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@ require("db/connection.php");
                 <td>".$value['first_name']."</td>
                 <td>".$value['email']."</td>
                 <td>".$value['datinha']."</td>
-                <td><button data-id='".$value['id']."' data-name='".$value['first_name']."' data-email='".$value['email']."' data-date='".$value['datinha']."' href='update.php'  id='edit' class='btn btn-success editbtn' data-toggle='modal' data-target='#modaledit'>edit</button> <button href='deletedata.php' class='btn btn-danger'>delete</button></td>
+                <td><button data-id='".$value['id']."' data-name='".$value['first_name']."' data-email='".$value['email']."' data-date='".$value['datinha']."' id='edit' class='btn btn-success editbtn' data-toggle='modal' data-target='#modaledit' >edit</button> <button href='deletedata.php' class='btn btn-danger'>delete</button></td>
              </tr>";
         }
         echo "</table>";
