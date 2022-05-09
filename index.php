@@ -25,7 +25,7 @@ require("db/connection.php");
                 </button>
             </div>
             <div class="modal-body">
-                <form action="update.php" method="post">
+                <form action="" method="post">
                     <select id="ids" name="ids">
                     <?php
                     $sql = $pdo->prepare("SELECT id FROM clients");
@@ -39,14 +39,34 @@ require("db/connection.php");
                 <input type="email" name="emailinput">
                 <input type="date" name="datinhainput">
 
-            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" href='update.php'>Save changes</button>
-            </div>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div></form></div>>
         </div>
     </div>
 </div>
+    <!--MODAL DELETE-->
+    <div class="modal fade" id="modaldelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitledelete" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitledelete">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="delete.php">
+                <div class="modal-body">
+                    <p class="p-3 mb-2 bg-danger text-white">Do have sure that you wanna delete this?</p>
+                </div>
+                <div class="modal-footer">
+                        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                        <button type='submit' class='btn btn-danger btndelete'>Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php
 
     if (isset($_POST['name'])&& isset($_POST['email'])&& isset($_POST['data'])){
@@ -55,7 +75,7 @@ require("db/connection.php");
         $name = CleaningInput($_POST['name']);
         $email= CleaningInput($_POST['email']);
         #TODO: PROBLEM WITH THE DATE OF BRAZIl
-        $date=date('d-m-Y');
+        $date=date('Y-m-d');
 
         if (isset($_POST["name"]) && isset($_POST["email"])&& isset($_POST["date"])){
             if((empty($name) || empty($email)) || empty($data)){
@@ -97,11 +117,14 @@ require("db/connection.php");
     if(count($datainfo) > 0){
         foreach ($datainfo as $key => $value) {
             echo"<tr>
+                <form action='delete.php?id=".$value['id']."' method='post'>
                 <td>".$value['id']."</td> 
                 <td>".$value['first_name']."</td>
                 <td>".$value['email']."</td>
                 <td>".$value['datinha']."</td>
-                <td><button data-id='".$value['id']."' data-name='".$value['first_name']."' data-email='".$value['email']."' data-date='".$value['datinha']."' id='edit' class='btn btn-success editbtn' data-toggle='modal' data-target='#modaledit' >edit</button> <button href='deletedata.php' class='btn btn-danger'>delete</button></td>
+
+                <td><button id='edit' class='btn btn-success editbtn' data-toggle='modal' data-target='#modaledit' >edit</button> <button type='submit' class='btn btn-danger' data-toggle='modal'>delete</button></td>
+               </form>
              </tr>";
         }
         echo "</table>";

@@ -1,8 +1,9 @@
 <?php
 require("db/connection.php");
+$id = $_GET["id"];
 try {
     $sql = $pdo->prepare("DELETE FROM clients WHERE id = :ids");
-    $sql->bindParam(":ids",$_POST["ids"]);
+    $sql->bindParam(":ids",$id);
     $sql->execute();
     header("Location: /crud/index.php?deleted");
 } catch (PDOException $exception) {
