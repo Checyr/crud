@@ -1,5 +1,6 @@
 <?php
 require("db/connection.php");
+//get the id from the url
 $id = $_GET["id"];
 try {
     $sql = $pdo->prepare("DELETE FROM clients WHERE id = :ids");

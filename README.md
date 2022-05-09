@@ -50,6 +50,7 @@ the error.
 To insert Data on a table is the same process which change it's the command but this not a safe way to do 
 this, so we need to see about query Injection
 
+
 ## Query Injection
 
 For query injection it's most recommended use to prepare and passed after a array with the values like in the 
@@ -60,7 +61,23 @@ example below, we use the "?" to avoid to the user can type a command and add so
     $sql->execute(array($name,$email,$data));
     echo "Submitted" . PHP_EOL;
 ~~~~
+Query Injection it's a way to pre-see if the user add, remove or control anything about the database you can also use bindParam
+for this we are separate in another file for cleaning code and security, after the set we can put the names of the columns
+between "()" and say VALUES open new "()" and inside of set new variables but instead $ put a : and set using the method
+bindParams() the value of each column
 
+~~~~php
+    try {
+      $sql = $pdo->prepare("INSERT INTO clients (id, first_name, email, datinha) VALUES (default, :namess, :emails, :datinha)");
+      $sql->bindParam(":namess", $_POST['name']);
+      $sql->bindParam(":emails", $_POST['email']);
+      $sql->bindParam(":datinha", $_POST['data']);
+      $sql->execute();
+      header("Location: /crud/index.php");
+    }catch(PDOException $ex){
+        echo "Something went wrong" . $ex->getMessage();
+    }
+~~~~
 
 ## READ 
 
@@ -93,13 +110,49 @@ if is empty.
     }
 ~~~~
 
+##UPDATE
+
+For update in a way that make the things more beautiful using bootstrap for creating a modal you'll need to set the code before
+the programming and change the id and put a button with the parameters data-target equal the id of your modal and a data-toggle
+equal modal and on the parameters of the button put the type for "submit" and put everything in a tag form with action with the
+name of the file
 
 
-##
-s
 
-## DELETE
+##DELETE
 
-[Read Process Memory](https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-readprocessmemory)
+Put the table that is inside a foreach on a form and the action equals a file name that you create for this action and set
+a query like this and after pass the id using the loop for catch the right value
 
+~~~~php
+   foreach ($datainfo as $key => $value) {
+      echo"<tr>
+          <form action='delete.php?id=".$value['id']."' method='post'>
+          <td>".$value['id']."</td> 
+          <td>".$value['first_name']."</td>
+          <td>".$value['email']."</td>
+          <td>".$value['datinha']."</td>
+~~~~
 
+and go to the file that you set, and you'll need to do a similar thing that you do when you add a data to database you just
+will use UPDATE instead of INSERT INTO and SET we use WHERE 
+⚠⚠⚠ NEVER DO THIS WITHOUT USING A WHERE OR UPDATE WITHOUT A WHERE⚠⚠⚠
+you don't want that your whole database be deleted and your delete file will be like this:
+
+~~~~php
+   <?php
+   require("db/connection.php");
+   if ($_SERVER['REQUEST_METHOD'] == "POST"){
+       try {
+           $sql = $pdo->prepare("UPDATE clients SET first_name= :namesss, email = :emailss, datinha = :datinhas WHERE id = :ids");
+           $sql->bindParam(":namesss",$_POST["nameinput"]);
+           $sql->bindParam(":emailss",$_POST["emailinput"]);
+           $sql->bindParam(":datinhas",$_POST["datinhainput"]);
+           $sql->bindParam(":ids",$_POST["ids"]);
+           $sql->execute();
+           header("Location: /crud/index.php?foi");
+       } catch (PDOException $exception) {
+           echo $exception;
+       }
+   }
+~~~~
